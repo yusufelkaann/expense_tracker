@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expense_tracker/pages/home/views/main_Screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      //appBar: AppBar(),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(30),
@@ -55,6 +56,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+      body: MainScreen(),
     );
   }
 }
