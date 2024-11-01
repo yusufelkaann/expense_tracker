@@ -1,7 +1,7 @@
 import 'package:expense_tracker/services/balance_service.dart';
 import 'package:flutter/material.dart';
 
-class BalanceProvider extends ChangeNotifier{
+class BalanceProvider with ChangeNotifier{
   final BalanceService _balanceService = BalanceService();
   double? _balance;
 
