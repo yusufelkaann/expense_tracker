@@ -1,9 +1,8 @@
 import 'dart:math';
-
-import 'package:expense_tracker/pages/expense/expense_screen.dart';
+import 'package:expense_tracker/pages/balance%20pages/add_expense_screen.dart';
+import 'package:expense_tracker/pages/balance%20pages/add_income_screen.dart'; // Import the add income screen
 import 'package:expense_tracker/pages/home/views/main_Screen.dart';
 import 'package:flutter/material.dart';
-
 import '../../stats/stats.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,19 +19,18 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   int index = 0;
-  late Color selectedColor =Colors.blue;
+  late Color selectedColor = Colors.blue;
   Color unselectedColor = Colors.grey;
+
   @override
-  
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(30),
         ),
         child: BottomNavigationBar(
-          onTap: (value){
+          onTap: (value) {
             setState(() {
               index = value;
             });
@@ -56,19 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               label: 'Stats',
             ),
-          ]
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ExpenseEntryPage())
-          );
+        onPressed: () {
+          _showIncomeExpenseDialog(context); // Show dialog on FAB press
         },
-
         shape: const CircleBorder(),
         child: Container(
           width: 60,
@@ -82,16 +75,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 Theme.of(context).colorScheme.primary,
               ],
               transform: const GradientRotation(pi / 4),
-            )
+            ),
           ),
-          child: const Icon(
-            Icons.add,
-          ),
+          child: const Icon(Icons.add),
         ),
       ),
-      body: index == 0
-        ? MainScreen()
-        : SettingsScreen(),
+      body: index == 0 ? MainScreen() : SettingsScreen(),
+    );
+  }
+
+  // Dialog to ask if user wants to add Income or Expense
+  void _showIncomeExpenseDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Add Entry"),
+        content: Text("Would you like to add an Income or an Expense?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => IncomeEntryPage()),
+              ); // Navigate to Income Entry Page
+            },
+            child: Text("Income"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExpenseEntryPage()),
+              ); // Navigate to Expense Entry Page
+            },
+            child: Text("Expense"),
+          ),
+        ],
+      ),
     );
   }
 }

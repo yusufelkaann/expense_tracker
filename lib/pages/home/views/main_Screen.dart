@@ -2,11 +2,12 @@
 
 import 'dart:math';
 import 'package:expense_tracker/components/custom_row.dart';
-import 'package:expense_tracker/components/edit_balance.dart';
+import 'package:expense_tracker/pages/balance%20pages/edit_balance.dart';
 import 'package:expense_tracker/models/expense_model.dart';
 import 'package:expense_tracker/providers/auth_provider.dart';
 import 'package:expense_tracker/providers/balance_provider.dart';
 import 'package:expense_tracker/providers/expense_provider.dart';
+import 'package:expense_tracker/providers/income_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart'; 
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
       if (userId != null) {
         Provider.of<BalanceProvider>(context, listen: false).fetchBalance(userId);
         Provider.of<ExpenseProvider>(context, listen: false).fetchExpenses(userId);
+        Provider.of<IncomeProvider>(context, listen: false).fetchIncomes(userId);
       }
     });
   }
@@ -220,10 +222,10 @@ class _MainScreenState extends State<MainScreen> {
   }*/
 
   Widget _buildIncomeExpenseRow(BuildContext context) {
-    return Consumer<ExpenseProvider>(
-      builder: (context, expenseProvider, _) {
+    return Consumer2<ExpenseProvider, IncomeProvider>(
+      builder: (context, expenseProvider,incomeProvider, _) {
         final totalAmount = expenseProvider.totalExpenses;
-        
+        final totalIncome = incomeProvider.totalIncome;
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -239,7 +241,7 @@ class _MainScreenState extends State<MainScreen> {
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                 ), 
-                amount: '2400', 
+                amount: totalIncome.toString(), 
                 amountStyle: TextStyle(
                   fontSize: 14,
                   color: Colors.white,

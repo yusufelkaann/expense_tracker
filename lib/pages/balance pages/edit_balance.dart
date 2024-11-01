@@ -1,7 +1,7 @@
 import 'package:expense_tracker/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/balance_provider.dart';
+import '../../providers/balance_provider.dart';
 
 class SetBalancePage extends StatelessWidget {
   const SetBalancePage({super.key});

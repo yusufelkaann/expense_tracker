@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProviderr>(context);
+    //final authProvider = Provider.of<AuthProviderr>(context);
 
-    return StreamBuilder<User?>(
+    return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(), // Listen to auth state changes
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
