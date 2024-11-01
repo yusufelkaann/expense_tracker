@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878982675214",
+    "project_id": "epensetracker-8d8fe",
+    "storage_bucket": "epensetracker-8d8fe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878982675214:android:49cb3f893c38239858b55f",
+        "android_client_info": {
+          "package_name": "com.example.expense_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApag9U4t9UijDmMjXKJv9UPAWt3Agf0yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
