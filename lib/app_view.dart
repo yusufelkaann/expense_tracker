@@ -1,4 +1,5 @@
-import 'package:expense_tracker/pages/home/views/home_screen.dart';
+import 'package:expense_tracker/pages/auth/auth_screen.dart';
+import 'package:expense_tracker/pages/auth/sign_up.screen.dart';
 import 'package:flutter/material.dart';
 
 class MyAppView extends StatelessWidget {
@@ -19,7 +20,7 @@ class MyAppView extends StatelessWidget {
           outline: Colors.grey
         ),
       ),
-      home: HomeScreen(),
+      home: AuthWrapper(),
     );
   }
 }

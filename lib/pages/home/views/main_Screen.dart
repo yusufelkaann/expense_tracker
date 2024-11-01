@@ -1,14 +1,27 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'dart:math';
 
 import 'package:expense_tracker/components/custom_row.dart';
+import 'package:expense_tracker/components/edit_balance.dart';
 import 'package:expense_tracker/data/data.dart';
+import 'package:expense_tracker/providers/auth_provider.dart';
+import 'package:expense_tracker/providers/balance_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProviderr>(context);
+    final user = authProvider.user;
+    final username = authProvider.username;
+
+    final balanceProvider = Provider.of<BalanceProvider>(context);
+    final balance = balanceProvider.balance;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
@@ -49,7 +62,7 @@ class MainScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Yusuf Elkaan",
+                          user != null ? username ?? "User" : "User",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -88,7 +101,7 @@ class MainScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -100,12 +113,21 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 12,),
-                  Text(
-                    "\$ 4800.0 ",
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SetBalancePage())
+                      
+                      );
+                    }, 
+                    child: Text(
+                      user != null && balance != null ? "\$ ${balance.toStringAsFixed(2)}" : "\$ 0.0",
+                      style: const TextStyle(
+                        fontSize: 40,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                      )
                     ),
                   ),
                   SizedBox(height: 12,),
@@ -208,10 +230,7 @@ class MainScreen extends StatelessWidget {
                                       ),
                                     ),
                                     transactionsData[i]['icon']
-                                    /*const Icon(
-                                      Icons.local_pizza_outlined,
-                                      color: Colors.white,
-                                    )*/
+                                    
                                   ],
                                 ),
                                 const SizedBox(width:12,),

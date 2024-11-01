@@ -1,43 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 
-class AuthService{
-  final FirebaseAuth _firebaseAuth =  FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  //Method to sign in with google
-  Future<User?> signInWithGoogle() async {
-    try{
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if(googleUser == null) return null;
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-      //obtain the authentication details
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  // Sign up with email and password
+  Future<User?> signUpWithEmail(String email, String password, String userName) async {
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      User? user = result.user;
 
-      final AuthCredential credential = await GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken
-      );
-      //sign in to firebase
-      UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
-      return userCredential.user;
-
-    }catch(e){
-      print("Eroor with the sign in: $e");
+      if(user != null){
+        await _firestore.collection('users').doc(user.uid).set({
+          'username': userName,
+          'email': email
+        });
+      }
+      return user;
+    } catch (e) {
+      print(e.toString());
       return null;
     }
   }
-  
 
-  //method to sign out
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-    await _googleSignIn.signOut();
-  } 
-  
-  //get current user
-  User? getCurrentUser(){
-    return _firebaseAuth.currentUser;
+  // Sign in with email and password
+  Future<User?> signInWithEmail(String email, String password) async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return result.user;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
- 
+
+  // Sign out
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
 }

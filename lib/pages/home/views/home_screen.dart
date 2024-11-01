@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var widgetList = [
     MainScreen(),
-    StatScreen(),
+    SettingsScreen(),
   ];
 
   int index = 0;
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: index == 0
         ? MainScreen()
-        : StatScreen(),
+        : SettingsScreen(),
     );
   }
 }
